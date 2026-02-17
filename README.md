@@ -64,6 +64,19 @@ async def main():
         ws.on_notification(lambda data: print("Update:", data))
 ```
 
+> **Note:** On LWHEM firmware 2.0.0+, hub subscriptions no longer deliver
+> individual breaker updates. You must subscribe to each `ResidentialBreaker`
+> separately. CT updates are still delivered via the hub subscription on all
+> firmware versions.
+
+## Debug Logging
+
+```python
+from aioleviton import enable_debug_logging
+
+enable_debug_logging()  # sets aioleviton logger to DEBUG
+```
+
 ## Supported Devices
 
 | Device | API Model | Hub Type |
