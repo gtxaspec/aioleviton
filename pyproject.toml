@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aioleviton"
-version = "0.2.0"
+version = "0.2.1"
 description = "Async Python client for the Leviton My Leviton cloud API"
 readme = "README.md"
 license = "MIT"
