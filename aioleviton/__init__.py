@@ -1,6 +1,19 @@
 """Async Python client for the Leviton My Leviton cloud API."""
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
+
+import logging
+
+
+def enable_debug_logging() -> None:
+    """Enable DEBUG logging for the aioleviton library.
+
+    Sets the root 'aioleviton' logger to DEBUG so all modules
+    (client, websocket, etc.) emit debug output. Callers can also
+    do this manually: logging.getLogger("aioleviton").setLevel(logging.DEBUG)
+    """
+    logging.getLogger(__name__).setLevel(logging.DEBUG)
+
 
 from .client import LevitonClient
 from .exceptions import (
@@ -18,6 +31,7 @@ __all__ = [
     "AuthToken",
     "Breaker",
     "Ct",
+    "enable_debug_logging",
     "LevitonAuthError",
     "LevitonClient",
     "LevitonConnectionError",
