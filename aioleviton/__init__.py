@@ -1,6 +1,6 @@
 """Async Python client for the Leviton My Leviton cloud API."""
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 from .client import LevitonClient
 from .exceptions import (

@@ -314,7 +314,7 @@ class Breaker:
     @property
     def has_lsbma(self) -> bool:
         """Return True if this placeholder has LSBMA CTs attached."""
-        return self.is_placeholder and self.lsbma_id is not None
+        return self.is_placeholder and bool(self.lsbma_id)
 
     @property
     def is_gen2(self) -> bool:
@@ -352,17 +352,17 @@ class Breaker:
             remote_state=data.get("remoteState"),
             remote_on=data.get("remoteOn", False),
             can_remote_on=data.get("canRemoteOn", False),
-            firmware_version_ble=data.get("firmwareVersionBLE"),
-            firmware_version_meter=data.get("firmwareVersionMeter"),
-            firmware_version_silabs=data.get("firmwareVersionSiLabs"),
-            firmware_version_gfci=data.get("firmwareVersionGFCI"),
-            firmware_version_afci=data.get("firmwareVersionAFCI"),
-            hw_version=data.get("hwVersion"),
-            serial_number=data.get("serialNumber"),
+            firmware_version_ble=data.get("firmwareVersionBLE") or None,
+            firmware_version_meter=data.get("firmwareVersionMeter") or None,
+            firmware_version_silabs=data.get("firmwareVersionSiLabs") or None,
+            firmware_version_gfci=data.get("firmwareVersionGFCI") or None,
+            firmware_version_afci=data.get("firmwareVersionAFCI") or None,
+            hw_version=data.get("hwVersion") or None,
+            serial_number=data.get("serialNumber") or None,
             locked=data.get("locked", False),
             blink_led=data.get("blinkLED", False),
-            lsbma_id=data.get("lsbmaId"),
-            lsbma_id_2=data.get("lsbmaId2"),
+            lsbma_id=data.get("lsbmaId") or None,
+            lsbma_id_2=data.get("lsbmaId2") or None,
             lsbma_parent_id=data.get("lsbmaParentId"),
             iot_whem_id=data.get("iotWhemId"),
             residential_breaker_panel_id=data.get("residentialBreakerPanelId"),
