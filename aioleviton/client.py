@@ -521,6 +521,28 @@ class LevitonClient:
             json_data={"bandwidth": bandwidth},
         )
 
+    def create_websocket(self) -> "LevitonWebSocket":
+        """Create a WebSocket client using the current session and auth token.
+
+        Returns:
+            A LevitonWebSocket ready to connect.
+
+        Raises:
+            LevitonAuthError: If the client is not authenticated.
+        """
+        if self._auth_token is None:
+            raise LevitonAuthError("Not authenticated. Call login() first.")
+        from .websocket import LevitonWebSocket
+
+        return LevitonWebSocket(
+            session=self._session,
+            token=self._auth_token.token,
+            user_id=self._auth_token.user_id,
+            user=self._auth_token.user,
+            token_created=self._auth_token.created,
+            token_ttl=self._auth_token.ttl,
+        )
+
     def _ensure_authenticated(self) -> None:
         """Raise if not authenticated."""
         if not self._token:
