@@ -469,6 +469,15 @@ class LevitonClient:
             json_data={"blinkLED": True},
         )
 
+    async def stop_blink_led(self, breaker_id: str) -> None:
+        """Stop blinking the LED on a smart breaker."""
+        self._ensure_authenticated()
+        await self._request(
+            "PATCH",
+            BREAKER_ENDPOINT.format(breaker_id=breaker_id),
+            json_data={"blinkLED": False},
+        )
+
     async def identify_whem(self, whem_id: str) -> None:
         """Trigger identify LED on a LWHEM hub."""
         self._ensure_authenticated()

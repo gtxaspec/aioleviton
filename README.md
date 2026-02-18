@@ -98,10 +98,11 @@ await client.trip_breaker(breaker_id)
 await client.turn_on_breaker(breaker_id)
 await client.turn_off_breaker(breaker_id)
 
-# Blink LED on a breaker
+# Blink LED on a breaker (toggle on/off)
 await client.blink_led(breaker_id)
+await client.stop_blink_led(breaker_id)
 
-# Identify LED on a LWHEM hub
+# Identify LED on a LWHEM hub (on only, no off)
 await client.identify_whem(whem_id)
 ```
 

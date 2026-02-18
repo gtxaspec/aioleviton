@@ -393,6 +393,7 @@ class Breaker:
             "remoteState": "remote_state",
             "remoteOn": "remote_on",
             "locked": "locked",
+            "blinkLED": "blink_led",
         }
         for api_key, attr_name in field_map.items():
             if api_key in data:
