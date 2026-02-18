@@ -435,6 +435,7 @@ class LevitonClient:
 
     async def trip_breaker(self, breaker_id: str) -> None:
         """Remotely trip a breaker (all smart breakers)."""
+        _LOGGER.debug("Tripping breaker %s", breaker_id)
         self._ensure_authenticated()
         await self._request(
             "PATCH",
@@ -444,6 +445,7 @@ class LevitonClient:
 
     async def turn_on_breaker(self, breaker_id: str) -> None:
         """Remotely turn on a Gen 2 breaker."""
+        _LOGGER.debug("Turning on breaker %s", breaker_id)
         self._ensure_authenticated()
         await self._request(
             "PATCH",
@@ -453,6 +455,7 @@ class LevitonClient:
 
     async def turn_off_breaker(self, breaker_id: str) -> None:
         """Remotely turn off a Gen 2 breaker (trip)."""
+        _LOGGER.debug("Turning off breaker %s", breaker_id)
         self._ensure_authenticated()
         await self._request(
             "PATCH",
@@ -494,6 +497,7 @@ class LevitonClient:
             panel_id: The panel ID.
             enabled: True to enable bandwidth (real-time), False to disable.
         """
+        _LOGGER.debug("Setting panel %s bandwidth to %s", panel_id, enabled)
         self._ensure_authenticated()
         await self._request(
             "PUT",
@@ -523,6 +527,7 @@ class LevitonClient:
             whem_id: The WHEM ID.
             bandwidth: 0 (slow/off), 1 (fast), 2 (medium/default).
         """
+        _LOGGER.debug("Setting WHEM %s bandwidth to %d", whem_id, bandwidth)
         self._ensure_authenticated()
         await self._request(
             "PUT",
@@ -602,6 +607,8 @@ class LevitonClient:
         if filter_header is not None:
             headers["filter"] = json.dumps(filter_header)
 
+        _LOGGER.debug("API %s %s", method, endpoint)
+
         try:
             async with self._session.request(
                 method,
@@ -610,6 +617,10 @@ class LevitonClient:
                 params=params,
                 headers=headers,
             ) as resp:
+                _LOGGER.debug(
+                    "API %s %s → %d", method, endpoint, resp.status
+                )
+
                 if resp.status == HTTP_STATUS_2FA_REQUIRED:
                     raise LevitonTwoFactorRequired(
                         "Two-factor authentication code required"
@@ -642,6 +653,7 @@ class LevitonClient:
                         )
                     except Exception:
                         msg = f"HTTP {resp.status}"
+                    _LOGGER.debug("API server error %s %s: %s", method, endpoint, msg)
                     raise LevitonConnectionError(f"Server error: {msg}")
 
                 if resp.status >= 400:
@@ -652,6 +664,7 @@ class LevitonClient:
                         )
                     except Exception:
                         msg = f"HTTP {resp.status}"
+                    _LOGGER.debug("API client error %s %s: %s", method, endpoint, msg)
                     raise LevitonError(f"API error ({resp.status}): {msg}")
 
                 if not expect_json or resp.status == 204:
@@ -668,6 +681,8 @@ class LevitonClient:
         ):
             raise
         except aiohttp.ClientError as err:
+            _LOGGER.debug("API connection error %s %s: %s", method, endpoint, err)
             raise LevitonConnectionError(f"Connection error: {err}") from err
         except Exception as err:
+            _LOGGER.debug("API unexpected error %s %s: %s", method, endpoint, err)
             raise LevitonConnectionError(f"Unexpected error: {err}") from err
