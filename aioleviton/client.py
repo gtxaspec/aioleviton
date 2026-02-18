@@ -452,12 +452,12 @@ class LevitonClient:
         )
 
     async def turn_off_breaker(self, breaker_id: str) -> None:
-        """Remotely turn off a Gen 2 breaker."""
+        """Remotely turn off a Gen 2 breaker (trip)."""
         self._ensure_authenticated()
         await self._request(
             "PATCH",
             BREAKER_ENDPOINT.format(breaker_id=breaker_id),
-            json_data={"remoteOn": False},
+            json_data={"remoteTrip": True},
         )
 
     async def blink_led(self, breaker_id: str) -> None:
