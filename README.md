@@ -167,6 +167,10 @@ for fw in firmware:
 ```
 
 
+## Disclaimer
+
+This is a do-it-yourself project for Leviton Load Center product users and is not affiliated with, endorsed by, or sponsored by Leviton Manufacturing Co., Inc. "Leviton" and all related product names are trademarks of Leviton Manufacturing Co., Inc. This library interacts with Leviton's cloud services using your own account credentials. Use at your own risk.
+
 ## License
 
 MIT
