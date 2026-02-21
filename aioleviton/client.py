@@ -8,9 +8,6 @@ from typing import TYPE_CHECKING, Any
 
 import aiohttp
 
-if TYPE_CHECKING:
-    from .websocket import LevitonWebSocket
-
 from .const import (
     ACCOUNT_RESIDENCES_ENDPOINT,
     API_BASE_URL,
@@ -20,7 +17,6 @@ from .const import (
     ENERGY_WEEK_ENDPOINT,
     ENERGY_YEAR_ENDPOINT,
     FIRMWARE_CHECK_ENDPOINT,
-    USER_AGENT,
     HTTP_STATUS_2FA_REQUIRED,
     HTTP_STATUS_INVALID_CODE,
     HTTP_STATUS_UNAUTHORIZED,
@@ -32,6 +28,7 @@ from .const import (
     PERMISSIONS_ENDPOINT,
     RESIDENCE_PANELS_ENDPOINT,
     RESIDENCE_WHEMS_ENDPOINT,
+    USER_AGENT,
     WHEM_BREAKERS_ENDPOINT,
     WHEM_CTS_ENDPOINT,
     WHEM_ENDPOINT,
@@ -45,6 +42,9 @@ from .exceptions import (
     LevitonTwoFactorRequired,
 )
 from .models import AuthToken, Breaker, Ct, Panel, Permission, Residence, Whem
+
+if TYPE_CHECKING:
+    from .websocket import LevitonWebSocket
 
 _LOGGER = logging.getLogger(__name__)
 
