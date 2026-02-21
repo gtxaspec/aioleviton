@@ -33,6 +33,7 @@ def test_all_list_contents():
     """__all__ contains the expected public API names."""
     expected = {
         "AuthToken",
+        "BaseLevitonClient",
         "Breaker",
         "Ct",
         "enable_debug_logging",

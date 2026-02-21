@@ -15,6 +15,7 @@ def enable_debug_logging() -> None:
     logging.getLogger(__name__).setLevel(logging.DEBUG)
 
 
+from .base_client import BaseLevitonClient
 from .client import LevitonClient
 from .exceptions import (
     LevitonAuthError,
@@ -29,6 +30,7 @@ from .websocket import LevitonWebSocket
 
 __all__ = [
     "AuthToken",
+    "BaseLevitonClient",
     "Breaker",
     "Ct",
     "enable_debug_logging",
