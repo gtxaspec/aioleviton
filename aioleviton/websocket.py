@@ -12,7 +12,7 @@ from typing import Any
 
 import aiohttp
 
-from .const import WEBSOCKET_URL
+from .const import USER_AGENT, WEBSOCKET_URL
 from .exceptions import LevitonConnectionError
 
 _LOGGER = logging.getLogger(__name__)
@@ -77,6 +77,7 @@ class LevitonWebSocket:
             self._ws = await self._session.ws_connect(
                 WEBSOCKET_URL,
                 heartbeat=HEARTBEAT_TIMEOUT / 2,
+                headers={"user-agent": USER_AGENT},
             )
         except (aiohttp.ClientError, OSError) as err:
             raise LevitonConnectionError(f"WebSocket connection failed: {err}") from err

@@ -4,9 +4,12 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import aiohttp
+
+if TYPE_CHECKING:
+    from .websocket import LevitonWebSocket
 
 from .const import (
     ACCOUNT_RESIDENCES_ENDPOINT,
@@ -17,6 +20,7 @@ from .const import (
     ENERGY_WEEK_ENDPOINT,
     ENERGY_YEAR_ENDPOINT,
     FIRMWARE_CHECK_ENDPOINT,
+    USER_AGENT,
     HTTP_STATUS_2FA_REQUIRED,
     HTTP_STATUS_INVALID_CODE,
     HTTP_STATUS_UNAUTHORIZED,
@@ -149,7 +153,7 @@ class LevitonClient:
                     authenticated=False,
                     expect_json=False,
                 )
-            except LevitonConnectionError:
+            except LevitonError:
                 pass
             finally:
                 self._token = None
@@ -535,7 +539,7 @@ class LevitonClient:
             json_data={"bandwidth": bandwidth},
         )
 
-    def create_websocket(self) -> "LevitonWebSocket":
+    def create_websocket(self) -> LevitonWebSocket:
         """Create a WebSocket client using the current session and auth token.
 
         Returns:
@@ -599,6 +603,7 @@ class LevitonClient:
         headers: dict[str, str] = {
             "content-type": "application/json",
             "accept": "application/json",
+            "user-agent": USER_AGENT,
         }
 
         if authenticated and self._token:
@@ -617,9 +622,7 @@ class LevitonClient:
                 params=params,
                 headers=headers,
             ) as resp:
-                _LOGGER.debug(
-                    "API %s %s → %d", method, endpoint, resp.status
-                )
+                _LOGGER.debug("API %s %s → %d", method, endpoint, resp.status)
 
                 if resp.status == HTTP_STATUS_2FA_REQUIRED:
                     raise LevitonTwoFactorRequired(
@@ -672,13 +675,7 @@ class LevitonClient:
 
                 return await resp.json()
 
-        except (
-            LevitonTwoFactorRequired,
-            LevitonInvalidCode,
-            LevitonTokenExpired,
-            LevitonAuthError,
-            LevitonError,
-        ):
+        except LevitonError:
             raise
         except aiohttp.ClientError as err:
             _LOGGER.debug("API connection error %s %s: %s", method, endpoint, err)

@@ -6,7 +6,6 @@ WEBSOCKET_URL = "wss://socket.cloud.leviton.com/"
 LOGIN_ENDPOINT = "/Person/login"
 LOGOUT_ENDPOINT = "/Person/logout"
 PERMISSIONS_ENDPOINT = "/Person/{person_id}/residentialPermissions"
-ACCOUNTS_ENDPOINT = "/ResidentialAccounts/{account_id}"
 ACCOUNT_RESIDENCES_ENDPOINT = "/ResidentialAccounts/{account_id}/residences"
 RESIDENCE_WHEMS_ENDPOINT = "/Residences/{residence_id}/iotWhems"
 RESIDENCE_PANELS_ENDPOINT = "/Residences/{residence_id}/residentialBreakerPanels"
@@ -30,8 +29,11 @@ ENERGY_YEAR_ENDPOINT = "/Residences/getAllEnergyConsumptionForYear"
 # Firmware check
 FIRMWARE_CHECK_ENDPOINT = "/LcsApps/getFirmware"
 
-TOKEN_TTL_DEFAULT = 5_184_000  # 60 days in seconds
-TOKEN_REFRESH_BUFFER = 86_400  # Refresh 1 day before expiry
+USER_AGENT = (
+    "Mozilla/5.0 (Linux; Android 14; Pixel 7 Build/UP1A.231105.001; wv) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 "
+    "Chrome/120.0.6099.193 Mobile Safari/537.36"
+)
 
 HTTP_STATUS_2FA_REQUIRED = 406
 HTTP_STATUS_INVALID_CODE = 408

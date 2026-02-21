@@ -24,7 +24,7 @@ pip install aioleviton
 
 ```python
 import aiohttp
-from aioleviton import LevitonClient, LevitonWebSocket
+from aioleviton import LevitonClient
 
 async def main():
     async with aiohttp.ClientSession() as session:
@@ -47,14 +47,7 @@ async def main():
             cts = await client.get_cts(whem.id)
 
         # Connect WebSocket for real-time updates
-        ws = LevitonWebSocket(
-            session=session,
-            token=auth.token,
-            user_id=auth.user_id,
-            user=auth.user,
-            token_created=auth.created,
-            token_ttl=auth.ttl,
-        )
+        ws = client.create_websocket()
         await ws.connect()
 
         # Subscribe to a hub (delivers all child breaker/CT updates)

@@ -117,7 +117,7 @@ class Whem:
             breaker_count=data.get("breakerCount"),
             bandwidth=data.get("bandwidth"),
             identify=data.get("identify"),
-            raw=data,
+            raw=dict(data),
         )
 
     def update(self, data: dict[str, Any]) -> None:
@@ -186,8 +186,8 @@ class Panel:
         if self.offline is None:
             return True
         try:
-            online_dt = datetime.fromisoformat(self.online.replace("Z", "+00:00"))
-            offline_dt = datetime.fromisoformat(self.offline.replace("Z", "+00:00"))
+            online_dt = datetime.fromisoformat(self.online)
+            offline_dt = datetime.fromisoformat(self.offline)
             return online_dt > offline_dt
         except (ValueError, AttributeError):
             return False
@@ -219,7 +219,7 @@ class Panel:
             package_ver=data.get("packageVer"),
             online=data.get("online"),
             offline=data.get("offline"),
-            raw=data,
+            raw=dict(data),
         )
 
     def update(self, data: dict[str, Any]) -> None:
@@ -366,7 +366,7 @@ class Breaker:
             lsbma_parent_id=data.get("lsbmaParentId"),
             iot_whem_id=data.get("iotWhemId"),
             residential_breaker_panel_id=data.get("residentialBreakerPanelId"),
-            raw=data,
+            raw=dict(data),
         )
 
     def update(self, data: dict[str, Any]) -> None:
@@ -439,7 +439,7 @@ class Ct:
             rms_current_2=data.get("rmsCurrent2"),
             connected=data.get("connected", False),
             usage_type=data.get("usageType"),
-            raw=data,
+            raw=dict(data),
         )
 
     def update(self, data: dict[str, Any]) -> None:
