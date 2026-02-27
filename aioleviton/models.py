@@ -272,6 +272,7 @@ class Breaker:
     energy_consumption: float | None
     energy_consumption_2: float | None
     energy_import: float | None
+    energy_import_2: float | None
     line_frequency: float | None
     line_frequency_2: float | None
     ble_rssi: int | None
@@ -344,6 +345,7 @@ class Breaker:
             energy_consumption=data.get("energyConsumption"),
             energy_consumption_2=data.get("energyConsumption2"),
             energy_import=data.get("energyImport"),
+            energy_import_2=data.get("energyImport2"),
             line_frequency=data.get("lineFrequency"),
             line_frequency_2=data.get("lineFrequency2"),
             ble_rssi=data.get("bleRSSI"),
@@ -385,6 +387,7 @@ class Breaker:
             "energyConsumption": "energy_consumption",
             "energyConsumption2": "energy_consumption_2",
             "energyImport": "energy_import",
+            "energyImport2": "energy_import_2",
             "lineFrequency": "line_frequency",
             "lineFrequency2": "line_frequency_2",
             "bleRSSI": "ble_rssi",
