@@ -65,7 +65,8 @@ async def main():
         await client.logout()
 ```
 
-> **Note:** On LWHEM firmware 2.0.0+, hub subscriptions no longer deliver
+> [!IMPORTANT]
+> On LWHEM firmware 2.0.0+, hub subscriptions no longer deliver
 > individual breaker updates. You must subscribe to each `ResidentialBreaker`
 > separately. CT updates are still delivered via the hub subscription on all
 > firmware versions.
@@ -163,7 +164,8 @@ await client.set_whem_bandwidth(whem_id, bandwidth=1)
 await client.set_panel_bandwidth(panel_id, enabled=True)
 ```
 
-> **Warning:** With bandwidth=1, the LWHEM REST API returns `energyConsumption`
+> [!WARNING]
+> With bandwidth=1, the LWHEM REST API returns `energyConsumption`
 > as period deltas instead of lifetime totals. Reset to 0 before reading energy
 > via REST to get correct lifetime values.
 
