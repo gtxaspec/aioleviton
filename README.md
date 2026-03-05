@@ -182,8 +182,14 @@ firmware = await client.check_firmware(
 for fw in firmware:
     print(f"v{fw['version']}: {fw['fileUrl']}")
 
-# Trigger OTA update on a LWHEM hub
+# Trigger OTA update on a LWHEM hub (WiFi + BLE)
 await client.trigger_whem_ota(whem_id)
+
+# WiFi firmware only
+await client.trigger_whem_ota(whem_id, wifi=True, ble=False)
+
+# BLE firmware only
+await client.trigger_whem_ota(whem_id, wifi=False, ble=True)
 ```
 
 ## Energy History
