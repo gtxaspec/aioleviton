@@ -1,6 +1,6 @@
 """Async Python client for the Leviton My Leviton cloud API."""
 
-__version__ = "0.3.2"
+__version__ = "0.3.3"
 
 import logging
 
