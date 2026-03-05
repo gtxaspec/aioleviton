@@ -367,7 +367,7 @@ class TestCommands:
                 ["whem_001"],
                 "PUT",
                 "/IotWhems/whem_001",
-                {"apply_ota": 2},
+                {"apply_ota": 1, "apply_ota_BLE": 1},
             ),
         ],
         ids=[
@@ -399,6 +399,43 @@ class TestCommands:
             mock_req.assert_awaited_once_with(
                 http_method, endpoint, json_data=json_body
             )
+
+
+class TestTriggerWhemOta:
+    """Tests for independent wifi/ble OTA triggers."""
+
+    async def test_wifi_only(self, authenticated_client):
+        with patch.object(
+            authenticated_client, "_request", new_callable=AsyncMock
+        ) as mock_req:
+            await authenticated_client.trigger_whem_ota(
+                "whem_001", wifi=True, ble=False
+            )
+            mock_req.assert_awaited_once_with(
+                "PUT", "/IotWhems/whem_001", json_data={"apply_ota": 1}
+            )
+
+    async def test_ble_only(self, authenticated_client):
+        with patch.object(
+            authenticated_client, "_request", new_callable=AsyncMock
+        ) as mock_req:
+            await authenticated_client.trigger_whem_ota(
+                "whem_001", wifi=False, ble=True
+            )
+            mock_req.assert_awaited_once_with(
+                "PUT",
+                "/IotWhems/whem_001",
+                json_data={"apply_ota_BLE": 1},
+            )
+
+    async def test_neither_is_noop(self, authenticated_client):
+        with patch.object(
+            authenticated_client, "_request", new_callable=AsyncMock
+        ) as mock_req:
+            await authenticated_client.trigger_whem_ota(
+                "whem_001", wifi=False, ble=False
+            )
+            mock_req.assert_not_awaited()
 
 
 # ---------------------------------------------------------------------------

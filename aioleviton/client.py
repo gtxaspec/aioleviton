@@ -381,19 +381,32 @@ class LevitonClient(BaseLevitonClient):
             json_data={"bandwidth": 1 if enabled else 0},
         )
 
-    async def trigger_whem_ota(self, whem_id: str) -> None:
+    async def trigger_whem_ota(
+        self,
+        whem_id: str,
+        *,
+        wifi: bool = True,
+        ble: bool = True,
+    ) -> None:
         """Trigger OTA firmware update on a LWHEM hub.
-
-        The device will download and install the latest available firmware.
 
         Args:
             whem_id: The WHEM ID.
+            wifi: Trigger WiFi firmware update.
+            ble: Trigger BLE firmware update.
         """
         self._ensure_authenticated()
+        data: dict[str, int] = {}
+        if wifi:
+            data["apply_ota"] = 1
+        if ble:
+            data["apply_ota_BLE"] = 1
+        if not data:
+            return
         await self._request(
             "PUT",
             WHEM_ENDPOINT.format(whem_id=whem_id),
-            json_data={"apply_ota": 2},
+            json_data=data,
         )
 
     async def set_whem_bandwidth(self, whem_id: str, bandwidth: int) -> None:
